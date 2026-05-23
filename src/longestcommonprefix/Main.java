@@ -1,31 +1,37 @@
 package longestcommonprefix;
 
-import java.util.Arrays;
-
 public class Main {
 
     public static void main(String[] args) {
-        System.out.println(longestCommonPrefix(new String[]{"flower", "flow", "flight"}));
+        System.out.println(longestCommonPrefix(new String[]{"aaa", "aa", "aaa"}));
     }
 
     public static String longestCommonPrefix(String[] strs) {
 
-        Arrays.sort(strs);
+        String answer = strs[0];
 
-        String firstStr = strs[0];
-        String lastStr = strs[strs.length - 1];
-
-        if (firstStr.isEmpty()) {
-            return "";
+        if (answer.isEmpty()) {
+            return answer;
         }
 
-        int j = 0;
-        int minLength = Math.min(firstStr.length(), lastStr.length());
+        for (int i = 1; i < strs.length; i++) {
+            String str = strs[i];
+            if (str.isEmpty()) {
+                return str;
+            }
 
-        while (j < minLength && firstStr.charAt(j) == lastStr.charAt(j)) {
-            j++;
+            if (answer.length() > str.length()) {
+                answer = answer.substring(0, str.length());
+            }
+
+            while (!str.startsWith(answer)) {
+                answer = answer.substring(0, answer.length() - 1);
+                if (answer.isEmpty()) {
+                    return answer;
+                }
+            }
         }
 
-        return firstStr.substring(0, j);
+        return answer;
     }
 }

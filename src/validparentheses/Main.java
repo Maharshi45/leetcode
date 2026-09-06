@@ -1,4 +1,6 @@
-public class validparentheses {
+package validparentheses;
+
+public class Main {
 
     public static void main(String[] args) {
         System.out.println(isValid("([{}])"));

@@ -1,74 +1,50 @@
 package romantointeger;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class Main {
 
     public static void main(String[] args) {
-        System.out.println(romanToInt("DCXXI"));
+        System.out.println(romanToInt("MCMXCIV"));
     }
 
     public static int romanToInt(String s) {
-        Map<Character, Integer> romanMap = new HashMap<>(7);
 
-        romanMap.put('I', 1);
-        romanMap.put('V', 5);
-        romanMap.put('X', 10);
-        romanMap.put('L', 50);
-        romanMap.put('C', 100);
-        romanMap.put('D', 500);
-        romanMap.put('M', 1000);
+        int length = s.length();
 
-        int sum = 0;
+        int sum = getValue(s.charAt(length - 1));
 
-        int i = 0;
+        int lastValue = sum;
 
-        for (; i < s.length(); i++) {
-            char c = s.charAt(i);
-
-            if ((c == 'I' || c == 'X' || c == 'C') && i != s.length() - 1) {
-                char nextChar = s.charAt(i + 1);
-                switch (c) {
-                    case 'I':
-                        if (nextChar == 'V') {
-                            sum += 4;
-                            i++;
-                        } else if (nextChar == 'X') {
-                            sum += 9;
-                            i++;
-                        } else {
-                            sum += romanMap.get(s.charAt(i));
-                        }
-                        break;
-                    case 'X':
-                        if (nextChar == 'L') {
-                            sum += 40;
-                            i++;
-                        } else if (nextChar == 'C') {
-                            sum += 90;
-                            i++;
-                        } else {
-                            sum += romanMap.get(s.charAt(i));
-                        }
-                        break;
-                    case 'C':
-                        if (nextChar == 'D') {
-                            sum += 400;
-                            i++;
-                        } else if (nextChar == 'M') {
-                            sum += 900;
-                            i++;
-                        } else {
-                            sum += romanMap.get(s.charAt(i));
-                        }
-                        break;
-                }
+        for (int i = length - 2; i >= 0; i--) {
+            int currentValue = getValue(s.charAt(i));
+            if (currentValue >= lastValue) {
+                sum += currentValue;
             } else {
-                sum += romanMap.get(s.charAt(i));
+                sum -= currentValue;
             }
+            lastValue = currentValue;
         }
 
         return sum;
+    }
+
+    public static int getValue(char c) {
+        switch (c) {
+            case 'I':
+                return 1;
+            case 'V':
+                return 5;
+            case 'X':
+                return 10;
+            case 'L':
+                return 50;
+            case 'C':
+                return 100;
+            case 'D':
+                return 500;
+            case 'M':
+                return 1000;
+            default:
+                return 0;
+        }
     }
 }
